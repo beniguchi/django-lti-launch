@@ -9,6 +9,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.network "forwarded_port", guest: 8000, host: 8000, auto_correct: true
+  config.vm.network "forwarded_port", guest: 5432, host: 15432, auto_correct: true
 
   # FIXME: workaround for https://git.io/vrVIu
   config.vm.provision :shell, inline: <<SCRIPT
