@@ -118,7 +118,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTHENTICATION_BACKENDS = ('ltilaunch.auth.LTILaunchBackend',)
+AUTHENTICATION_BACKENDS = [
+    'ltilaunch.auth.LTILaunchBackend',
+    'django.contrib.auth.backends.ModelBackend']
 
 LOGGING = {
     'version': 1,
