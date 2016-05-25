@@ -40,7 +40,8 @@ class LTILaunchBackend:
                         result = lti_user.user
         return result
 
-    def get_user(self, user_id):
+    @staticmethod
+    def get_user(user_id):
         um = get_user_model()
         try:
             return um.objects.get(pk=user_id)

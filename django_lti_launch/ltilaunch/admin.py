@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import LTIToolConsumer, LTIUser
+
+from .models import LTIToolConsumer
 
 
 class LTIToolConsumerAdmin(admin.ModelAdmin):

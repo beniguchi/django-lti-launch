@@ -34,7 +34,7 @@ class LaunchViewTestCase(TestCase):
             self.uri,
             http_method="POST",
             body=params,
-            headers={"Content-Type":"application/x-www-form-urlencoded" })
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
         resp = self.client.post(uri, body, headers=headers,
                                 secure=True,
                                 content_type="application/x-www-form-urlencoded")
@@ -47,14 +47,14 @@ class LaunchViewTestCase(TestCase):
         oauth_signer = oauthlib.oauth1.Client(
             client_key=self.key,
             client_secret=self.secret,
-            signature_type = oauthlib.oauth1.SIGNATURE_TYPE_BODY)
+            signature_type=oauthlib.oauth1.SIGNATURE_TYPE_BODY)
         params = {"tool_consumer_instance_guid": self.guid,
                   "user_id": self.user_id}
         uri, headers, body = oauth_signer.sign(
             self.uri,
             http_method="POST",
             body=params,
-            headers={"Content-Type":"application/x-www-form-urlencoded" })
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
         resp = self.client.post(uri, body, headers=headers,
                                 secure=True,
                                 content_type="application/x-www-form-urlencoded")

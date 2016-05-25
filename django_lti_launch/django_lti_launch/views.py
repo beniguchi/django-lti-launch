@@ -6,7 +6,7 @@ class TestLaunchView(LaunchView):
 
     def post(self, request):
         resp = super(TestLaunchView, self).post(request)
-        resp.content = "workaround"  # avoids django SSL server error spam
-                                     # see https://git.io/vrKJM
-                                     # unneeded outside of testing
+        # non-empty resp.content avoids django SSL server error spam
+        # see https://git.io/vrKJM, unneeded outside of testing
+        resp.content = "workaround"
         return resp

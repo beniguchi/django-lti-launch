@@ -11,6 +11,7 @@ def validate_lti_launch(consumer, uri, body, headers):
         body=body, headers={'Content-Type': headers['CONTENT_TYPE']})
 
 
+# noinspection PyAbstractClass
 class LTIOAuthValidator(RequestValidator):
     def __init__(self, consumer):
         self.consumer = consumer
@@ -28,8 +29,8 @@ class LTIOAuthValidator(RequestValidator):
                                      nonce, request,
                                      request_token=None,
                                      access_token=None):
-        result = (nonce not in self.consumer.recent_nonces
-                  and int(timestamp) + 30 > time.time())
+        result = (nonce not in self.consumer.recent_nonces and
+                  int(timestamp) + 30 > time.time())
         self.consumer.add_nonce(nonce)
         return result
 
