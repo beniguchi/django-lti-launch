@@ -1,12 +1,9 @@
-from django.contrib.auth import login
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.contrib.auth import login, authenticate
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import resolve_url
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-
-from ltilaunch.models import LTIToolConsumer, lti_user_for_request
-from ltilaunch.oauth import validate_lti_launch
 
 
 class LaunchView(View):
@@ -17,19 +14,12 @@ class LaunchView(View):
         return super(LaunchView, self).dispatch(request, *args, **kwargs)
 
     def post(self, request):
-        try:
-            consumer_key = request.POST['oauth_consumer_key']
-            consumer = LTIToolConsumer.objects.get(
-                oauth_consumer_key=consumer_key)
-            result = validate_lti_launch(consumer,
-                                         request.build_absolute_uri(),
-                                         request.body,
-                                         request.META)
-            if result:
-                login(request, lti_user_for_request(request))
-                return HttpResponseRedirect(resolve_url(self.success_redirect_url),
-                                            status=303)
-            else:
-                return HttpResponseForbidden("invalid OAuth signed request")
-        except LTIToolConsumer.DoesNotExist:
-            return HttpResponseForbidden("invalid OAuth consumer key")
+        lti_user = authenticate(launch_request=request)
+        if lti_user:
+            login(request, lti_user)
+            return HttpResponseRedirect(resolve_url(self.success_redirect_url),
+                                        status=303)
+        else:
+            unauthorized = HttpResponse(status=401)
+            unauthorized['WWW-Authenticate'] = 'OAuth realm=""'
+            return unauthorized

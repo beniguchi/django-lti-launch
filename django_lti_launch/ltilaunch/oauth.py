@@ -1,9 +1,6 @@
-import logging
 import time
 
 from oauthlib.oauth1 import RequestValidator, SignatureOnlyEndpoint
-
-logger = logging.getLogger('django')
 
 
 def validate_lti_launch(consumer, uri, body, headers):
