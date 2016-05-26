@@ -30,8 +30,8 @@ class LTILaunchBackend:
                 elif (consumer.match_guid_and_consumer and
                       consumer.tool_consumer_instance_guid != tool_guid):
                     logger.error(
-                        "OAuth consumer key '%s' and tool consumer instance GUID "
-                        "'%s' do not match", consumer_key, tool_guid)
+                        "OAuth consumer key '%s' and tool consumer instance "
+                        "GUID '%s' do not match", consumer_key, tool_guid)
                 else:
                     is_valid, _ = validate_lti_launch(
                         consumer,
