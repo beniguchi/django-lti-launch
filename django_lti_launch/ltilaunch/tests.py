@@ -35,18 +35,20 @@ class LaunchViewTestCase(TestCase):
             http_method="POST",
             body=params,
             headers={"Content-Type": "application/x-www-form-urlencoded"})
-        resp = self.client.post(uri, body, headers=headers,
-                                secure=True,
-                                content_type="application/x-www-form-urlencoded")
+        resp = self.client.post(
+            uri, body,
+            headers=headers,
+            secure=True,
+            content_type="application/x-www-form-urlencoded")
         self.assertIsNotNone(resp, "response should not be None")
         self.assertEquals(401, resp.status_code,
                           "response status should be 401 Unauthorized")
         self.assertNotIn('sessionid', resp.client.cookies)
 
-    def test_success(self):
+    def test_bad_signature(self):
         oauth_signer = oauthlib.oauth1.Client(
             client_key=self.key,
-            client_secret=self.secret,
+            client_secret="invalid",
             signature_type=oauthlib.oauth1.SIGNATURE_TYPE_BODY)
         params = {"tool_consumer_instance_guid": self.guid,
                   "user_id": self.user_id}
@@ -55,14 +57,95 @@ class LaunchViewTestCase(TestCase):
             http_method="POST",
             body=params,
             headers={"Content-Type": "application/x-www-form-urlencoded"})
-        resp = self.client.post(uri, body, headers=headers,
-                                secure=True,
-                                content_type="application/x-www-form-urlencoded")
+        resp = self.client.post(
+            uri, body,
+            headers=headers,
+            secure=True,
+            content_type="application/x-www-form-urlencoded")
+        self.assertIsNotNone(resp, "response should not be None")
+        self.assertEquals(401, resp.status_code,
+                          "response status should be 401 Unauthorized")
+        self.assertNotIn('sessionid', resp.client.cookies)
+
+    def test_guid_mismatch(self):
+        oauth_signer = oauthlib.oauth1.Client(
+            client_key=self.key,
+            client_secret=self.secret,
+            signature_type=oauthlib.oauth1.SIGNATURE_TYPE_BODY)
+        params = {"tool_consumer_instance_guid": "not the right thing",
+                  "user_id": self.user_id}
+        uri, headers, body = oauth_signer.sign(
+            self.uri,
+            http_method="POST",
+            body=params,
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
+        resp = self.client.post(
+            uri, body,
+            headers=headers,
+            secure=True,
+            content_type="application/x-www-form-urlencoded")
+        self.assertIsNotNone(resp, "response should not be None")
+        self.assertEquals(401, resp.status_code,
+                          "response status should be 401 Unauthorized")
+        self.assertNotIn('sessionid', resp.client.cookies)
+
+    def test_guid_mismatch_ok(self):
+        self.consumer.match_guid_and_consumer = False
+        self.consumer.save()
+        oauth_signer = oauthlib.oauth1.Client(
+            client_key=self.key,
+            client_secret=self.secret,
+            signature_type=oauthlib.oauth1.SIGNATURE_TYPE_BODY)
+        params = {"user_id": self.user_id,
+                  "music": "response"}
+        uri, headers, body = oauth_signer.sign(
+            self.uri,
+            http_method="POST",
+            body=params,
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
+        resp = self.client.post(
+            uri, body,
+            headers=headers,
+            secure=True,
+            content_type="application/x-www-form-urlencoded")
         self.assertIsNotNone(resp, "response should not be None")
         users = LTIUser.objects.filter(lti_user_id=self.user_id)
         self.assertEqual(1, len(users), "user should exist")
+        # check cool json stuff
+        results = LTIUser.objects.filter(
+            last_launch_parameters__music='response')
+        self.assertEqual(1, len(results),
+                         "should be able to search by LTI launch data")
         self.assertRedirects(resp, '/', status_code=303,
                              fetch_redirect_response=False)
         self.assertIn('sessionid', resp.client.cookies)
 
-
+    def test_success(self):
+        oauth_signer = oauthlib.oauth1.Client(
+            client_key=self.key,
+            client_secret=self.secret,
+            signature_type=oauthlib.oauth1.SIGNATURE_TYPE_BODY)
+        params = {"tool_consumer_instance_guid": self.guid,
+                  "user_id": self.user_id,
+                  "music": "response"}
+        uri, headers, body = oauth_signer.sign(
+            self.uri,
+            http_method="POST",
+            body=params,
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
+        resp = self.client.post(
+            uri, body,
+            headers=headers,
+            secure=True,
+            content_type="application/x-www-form-urlencoded")
+        self.assertIsNotNone(resp, "response should not be None")
+        users = LTIUser.objects.filter(lti_user_id=self.user_id)
+        self.assertEqual(1, len(users), "user should exist")
+        # check cool json stuff
+        results = LTIUser.objects.filter(
+            last_launch_parameters__music='response')
+        self.assertEqual(1, len(results),
+                         "should be able to search by LTI launch data")
+        self.assertRedirects(resp, '/', status_code=303,
+                             fetch_redirect_response=False)
+        self.assertIn('sessionid', resp.client.cookies)

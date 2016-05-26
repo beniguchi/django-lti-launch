@@ -15,7 +15,7 @@
       <sourceFolder url="file://$MODULE_DIR$/django_lti_launch" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.vagrant" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.4.3 Vagrant VM at ~/unizin/django-lti-launch (/home/vagrant/.virtualenvs/django-lti-launch/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">

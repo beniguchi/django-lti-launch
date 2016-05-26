@@ -2,7 +2,8 @@ import logging
 
 from django.contrib.auth import get_user_model
 
-from ltilaunch.models import get_or_create_lti_user, get_consumer_for_oauth_consumer_key
+from ltilaunch.models import (get_or_create_lti_user,
+                              get_consumer_for_oauth_consumer_key)
 from ltilaunch.oauth import validate_lti_launch
 
 logger = logging.getLogger(__name__)
@@ -19,11 +20,18 @@ class LTILaunchBackend:
             if launch_request.POST.keys() & self.required_keys:
                 consumer_key = launch_request.POST['oauth_consumer_key']
                 lti_user_id = launch_request.POST['user_id']
+                tool_guid = launch_request.POST.get(
+                    'tool_consumer_instance_guid', '')
                 consumer = get_consumer_for_oauth_consumer_key(consumer_key)
                 if not consumer:
                     logger.error(
                         "no LTI consumer found for OAuth consumer key '%s'",
                         consumer_key)
+                elif (consumer.match_guid_and_consumer and
+                      consumer.tool_consumer_instance_guid != tool_guid):
+                    logger.error(
+                        "OAuth consumer key '%s' and tool consumer instance GUID "
+                        "'%s' do not match", consumer_key, tool_guid)
                 else:
                     is_valid, _ = validate_lti_launch(
                         consumer,
@@ -32,7 +40,8 @@ class LTILaunchBackend:
                         launch_request.META)
                     if not is_valid:
                         logger.error(
-                            "LTI launch not valid for OAuth consumer key %s, user_id %s",
+                            "LTI launch not valid for OAuth consumer key %s,"
+                            " user_id %s",
                             consumer_key, lti_user_id)
                     else:
                         lti_user = get_or_create_lti_user(
