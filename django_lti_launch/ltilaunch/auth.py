@@ -2,8 +2,7 @@ import logging
 
 from django.contrib.auth import get_user_model
 
-from ltilaunch.models import (get_or_create_lti_user,
-                              get_consumer_for_oauth_consumer_key)
+from ltilaunch.models import get_or_create_lti_user, LTIToolConsumer
 from ltilaunch.oauth import validate_lti_launch
 
 logger = logging.getLogger(__name__)
@@ -18,36 +17,44 @@ class LTILaunchBackend:
         result = None
         if launch_request:
             if launch_request.POST.keys() & self.required_keys:
-                consumer_key = launch_request.POST['oauth_consumer_key']
-                lti_user_id = launch_request.POST['user_id']
-                tool_guid = launch_request.POST.get(
-                    'tool_consumer_instance_guid', '')
-                consumer = get_consumer_for_oauth_consumer_key(consumer_key)
-                if not consumer:
-                    logger.error(
-                        "no LTI consumer found for OAuth consumer key '%s'",
-                        consumer_key)
-                elif (consumer.match_guid_and_consumer and
-                      consumer.tool_consumer_instance_guid != tool_guid):
-                    logger.error(
-                        "OAuth consumer key '%s' and tool consumer instance "
-                        "GUID '%s' do not match", consumer_key, tool_guid)
-                else:
-                    is_valid, _ = validate_lti_launch(
-                        consumer,
-                        launch_request.build_absolute_uri(),
-                        launch_request.body,
-                        launch_request.META)
-                    if not is_valid:
-                        logger.error(
-                            "LTI launch not valid for OAuth consumer key %s,"
-                            " user_id %s",
-                            consumer_key, lti_user_id)
-                    else:
-                        lti_user = get_or_create_lti_user(
-                            consumer, lti_user_id, launch_request)
-                        result = lti_user.user
+                result = self._find_lti_user(launch_request)
         return result
+
+
+    @staticmethod
+    def _find_lti_user(launch_request):
+        consumer_key = launch_request.POST['oauth_consumer_key']
+        lti_user_id = launch_request.POST['user_id']
+        tool_guid = launch_request.POST.get(
+            'tool_consumer_instance_guid', '')
+        result = None
+        try:
+            consumer = LTIToolConsumer.objects.get(
+                oauth_consumer_key=consumer_key)
+        except LTIToolConsumer.DoesNotExist:
+            logger.error("no LTI consumer found for OAuth consumer key '%s'",
+                         consumer_key)
+        else:
+            guid_mismatch = consumer.tool_consumer_instance_guid != tool_guid
+            if consumer.match_guid_and_consumer and guid_mismatch:
+                logger.error(
+                    "OAuth consumer key '%s' and tool consumer instance GUID "
+                    "'%s' do not match", consumer_key, tool_guid)
+            else:
+                is_valid, _ = validate_lti_launch(
+                    consumer,
+                    launch_request.build_absolute_uri(),
+                    launch_request.body,
+                    launch_request.META)
+                if not is_valid:
+                    logger.error(
+                        "LTI launch not valid for OAuth consumer key '%s',"
+                        " user_id '%s'", consumer_key, lti_user_id)
+                else:
+                    result = get_or_create_lti_user(
+                        consumer, lti_user_id, launch_request).user
+        return result
+
 
     @staticmethod
     def get_user(user_id):

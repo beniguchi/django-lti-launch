@@ -1,3 +1,5 @@
+import logging
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import JSONField, ArrayField
@@ -6,6 +8,8 @@ from django.utils import timezone
 
 from ltilaunch.utils import generate_random_string
 
+
+logger = logging.getLogger(__name__)
 
 class LTIToolConsumer(models.Model):
     name = models.CharField(max_length=50)
@@ -48,13 +52,6 @@ class LTIUser(models.Model):
         unique_together = ('lti_tool_consumer', 'lti_user_id')
 
 
-def get_consumer_for_oauth_consumer_key(consumer_key):
-    try:
-        return LTIToolConsumer.objects.get(oauth_consumer_key=consumer_key)
-    except LTIToolConsumer.DoesNotExist:
-        return None
-
-
 def get_or_create_lti_user(consumer, lti_user_id, request):
     try:
         lti_user = LTIUser.objects.get(
@@ -76,3 +73,15 @@ def get_or_create_lti_user(consumer, lti_user_id, request):
         )
     lti_user.save()
     return lti_user
+
+
+def lti_launch_return_url(user):
+    result = None
+    try:
+        lti_user = LTIUser.objects.get(user=user)
+    except LTIUser.DoesNotExist:
+        logger.error("no LTIUser found for '%s'", user)
+    else:
+        result = lti_user.last_launch_parameters.get(
+            'launch_presentation_return_url', None)
+    return result

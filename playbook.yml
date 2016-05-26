@@ -37,7 +37,7 @@
     - name: install needed pip packages
       pip:
         chdir: yes
-        requirements: requirements.txt
+        requirements: requirements/dev.txt
         virtualenv: /home/vagrant/.virtualenvs/django-lti-launch
         virtualenv_python: python3
 

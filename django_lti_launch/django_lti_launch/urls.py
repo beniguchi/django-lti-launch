@@ -18,9 +18,13 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 from django_lti_launch.views import TestLaunchView
+from ltilaunch.views import ReturnRedirectView
 
 urlpatterns = [
+    url(r'^return', ReturnRedirectView.as_view()),
     url(r'^admin/', admin.site.urls),
-    url(r'^launch', TestLaunchView.as_view()),
+    url(r'^launch', TestLaunchView.as_view(
+        tool_provider_url='return?lti_errormsg=Who%27s+going+to+save+you,+'
+                          'Junior%3F!')),
     url(r'^succeeded', TemplateView.as_view(template_name='success.html'))
 ]

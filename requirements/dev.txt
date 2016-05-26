@@ -1,7 +1,4 @@
-# needed for ltilaunch
-Django==1.9.6
-psycopg2==2.6.1
-oauthlib==1.1.1
+-r base.txt
 
 # needed only for testing app
 # unneeded for production (handle in apache/nginx/etc.)
