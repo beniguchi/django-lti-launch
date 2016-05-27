@@ -18,19 +18,20 @@ class LaunchView(View):
         return super(LaunchView, self).dispatch(request, *args, **kwargs)
 
     def post(self, request):
+        result = HttpResponse(status=401)
+        result['WWW-Authenticate'] = 'OAuth realm=""'
         lti_user = authenticate(launch_request=request)
         if lti_user:
             login(request, lti_user)
-            return HttpResponseRedirect(self.tool_provider_url, status=303)
-        else:
-            unauthorized = HttpResponse(status=401)
-            unauthorized['WWW-Authenticate'] = 'OAuth realm=""'
-            return unauthorized
+            result = HttpResponseRedirect(self.tool_provider_url, status=303)
+        return result
 
 
 class ReturnRedirectView(View):
     @method_decorator(login_required)
     def get(self, request):
+        # FIXME: not sure what best default behavior is
+        result = HttpResponseNotFound()
         return_url = lti_launch_return_url(request.user)
         if return_url:
             parsed = urlparse(return_url)
@@ -44,7 +45,5 @@ class ReturnRedirectView(View):
                  parsed[3],
                  new_q,
                  parsed[5]))
-            return HttpResponseRedirect(url, status=303)
-        else:
-            # FIXME: not sure what best behavior is
-            return HttpResponseNotFound()
+            result = HttpResponseRedirect(url, status=303)
+        return result

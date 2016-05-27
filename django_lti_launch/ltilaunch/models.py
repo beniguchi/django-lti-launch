@@ -11,6 +11,7 @@ from ltilaunch.utils import generate_random_string
 
 logger = logging.getLogger(__name__)
 
+
 class LTIToolConsumer(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True)

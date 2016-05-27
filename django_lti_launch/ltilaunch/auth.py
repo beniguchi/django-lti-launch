@@ -20,7 +20,6 @@ class LTILaunchBackend:
                 result = self._find_lti_user(launch_request)
         return result
 
-
     @staticmethod
     def _find_lti_user(launch_request):
         consumer_key = launch_request.POST['oauth_consumer_key']
@@ -54,7 +53,6 @@ class LTILaunchBackend:
                     result = get_or_create_lti_user(
                         consumer, lti_user_id, launch_request).user
         return result
-
 
     @staticmethod
     def get_user(user_id):

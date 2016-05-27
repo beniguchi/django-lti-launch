@@ -50,22 +50,6 @@ class LaunchViewTestCase(TestCase):
                   "user_id": self.user_id}
         self._failure(oauth_signer, params)
 
-    def _failure(self, oauth_signer, params):
-        uri, headers, body = oauth_signer.sign(
-            self.uri,
-            http_method="POST",
-            body=params,
-            headers={"Content-Type": "application/x-www-form-urlencoded"})
-        resp = self.client.post(
-            uri, body,
-            headers=headers,
-            secure=True,
-            content_type="application/x-www-form-urlencoded")
-        self.assertIsNotNone(resp, "response should not be None")
-        self.assertEquals(401, resp.status_code,
-                          "response status should be 401 Unauthorized")
-        self.assertNotIn('sessionid', resp.client.cookies)
-
     def test_guid_mismatch_ok(self):
         self.consumer.match_guid_and_consumer = False
         self.consumer.save()
@@ -109,3 +93,19 @@ class LaunchViewTestCase(TestCase):
         self.assertRedirects(resp, '/', status_code=303,
                              fetch_redirect_response=False)
         self.assertIn('sessionid', resp.client.cookies)
+
+    def _failure(self, oauth_signer, params):
+        uri, headers, body = oauth_signer.sign(
+            self.uri,
+            http_method="POST",
+            body=params,
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
+        resp = self.client.post(
+            uri, body,
+            headers=headers,
+            secure=True,
+            content_type="application/x-www-form-urlencoded")
+        self.assertIsNotNone(resp, "response should not be None")
+        self.assertEquals(401, resp.status_code,
+                          "response status should be 401 Unauthorized")
+        self.assertNotIn('sessionid', resp.client.cookies)
