@@ -3,12 +3,8 @@ from setuptools import find_packages, setup
 
 
 PROJECT_PATH = os.path.dirname(__file__)
-with open(os.path.join(PROJECT_PATH, "README.md")) as readme:
-    README = readme.read()
 with open(os.path.join(PROJECT_PATH, "requirements", "base.txt")) as reqs:
     REQS = list(s.rstrip() for s in reqs.readlines())
-
-print(repr(REQS))
 
 # allow setup.py to be run from any path
 os.chdir(
@@ -21,7 +17,7 @@ setup(
     include_package_data=True,
     license='http://www.apache.org/licenses/LICENSE-2.0',
     description='IMS LTI launch authentication for Django',
-    long_description=README,
+    long_description="TODO",
     url="https://github.com/unizin/django-lti-launch",
     author="Unizin, Ltd.",
     author_email="dev@unizin.org",

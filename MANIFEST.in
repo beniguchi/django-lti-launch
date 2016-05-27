@@ -1,3 +1,6 @@
 include LICENSE
 include README.md
 include requirements/base.txt
+prune templates
+prune django_lti_launch
+prune manage.py
