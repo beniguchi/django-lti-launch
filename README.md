@@ -3,9 +3,23 @@
 This repository contains a reusable Django app `ltilaunch` to manage user authorization via LTI 1.x.
 It also contains a test Django project `django_lti_launch` to use for development and as a basic example of usage.
 
+## Installation
+
+The development branch can be installed via `pip`:
+
+```
+$ pip install git+ssh://github.com/unizin/django-lti-launch
+```
+
+
+## How to Use
+
+TODO: describe needed changes to `settings.py`, provided admin functionality, and how to incorporate `LaunchView`
+
+
 ## Development Environment Setup
 
-These steps are only needed if you wish to work with the `ltilaunch` app in the context of the testing-only `django_lti_launch` project.  Use a [prebuilt package](#build-package) and `pip` to make use of the app in a production Django project.
+These steps are only needed if you wish to work with the `ltilaunch` app in the context of the testing-only `django_lti_launch` project.
 
 ```
 $ vagrant up
@@ -23,19 +37,3 @@ The SSL devserver is used here to make it easy to use the Canvas LTI self-guided
 
 You should be able to access the Django admin UI at https://localhost:8000/admin/.  If this doesn't work, check that Vagrant did not assign a different port due to a collision with an existing service on the host machine.
 
-## Build App Package
-<a name="build-package"></a>
-
-To avoid micromanaging developer-hosted Python versions, the `remote_build.sh` script uses the Vagrant VM to create the distribution files.  A build server could use the `build.sh` script directly.  Either way, running
-
-```
-$ ./dev_scripts/remote_build.sh
-```
-
-or
-
-```
-$ ./dev_scripts/build.sh
-```
-
-should result in a `dist/` directory containing the needed artifacts.
