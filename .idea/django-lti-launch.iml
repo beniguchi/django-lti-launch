@@ -3,7 +3,7 @@
   <component name="FacetManager">
     <facet type="django" name="Django">
       <configuration>
-        <option name="rootFolder" value="$MODULE_DIR$/django_lti_launch" />
+        <option name="rootFolder" value="$MODULE_DIR$" />
         <option name="settingsModule" value="django_lti_launch/settings.py" />
         <option name="manageScript" value="manage.py" />
         <option name="environment" value="&lt;map/&gt;" />
@@ -17,7 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$/django_lti_launch" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.vagrant" />
     </content>
-    <orderEntry type="jdk" jdkName="Remote Python 3.4.3 Vagrant VM at ~/unizin/django-lti-launch (/home/vagrant/.virtualenvs/django-lti-launch/bin/python3)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.4.3 Vagrant VM at ~/unizin/django-lti-launch (/home/vagrant/.virtualenvs/django-lti-launch/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PackageRequirementsSettings">
