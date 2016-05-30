@@ -2,8 +2,8 @@ import logging
 
 from django.contrib.auth import get_user_model
 
-from ltilaunch.models import get_or_create_lti_user, LTIToolConsumer
-from ltilaunch.oauth import validate_lti_launch
+from .models import get_or_create_lti_user, LTIToolConsumer
+from .oauth import validate_lti_launch
 
 logger = logging.getLogger(__name__)
 

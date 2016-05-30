@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 
@@ -21,6 +21,7 @@ from django_lti_launch.views import TestLaunchView
 from ltilaunch.views import ReturnRedirectView
 
 urlpatterns = [
+    url(r'^ltilaunch/', include('ltilaunch.urls')),
     url(r'^return', ReturnRedirectView.as_view()),
     url(r'^admin/', admin.site.urls),
     url(r'^launch', TestLaunchView.as_view(

@@ -5,9 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import View
+from django.views.generic import DetailView, View
 
-from ltilaunch.models import lti_launch_return_url
+from .models import lti_launch_return_url, LTIToolProvider
+from .utils import absolute_url_for_path, as_https
 
 
 class LaunchView(View):
@@ -47,3 +48,19 @@ class ReturnRedirectView(View):
                  parsed[5]))
             result = HttpResponseRedirect(url, status=303)
         return result
+
+
+class LTIConfigView(DetailView):
+    content_type = "application/xml"
+    model = LTIToolProvider
+    slug_field = "name"
+
+    def get_context_data(self, **kwargs):
+        context = super(LTIConfigView, self).get_context_data(**kwargs)
+        launch_url = absolute_url_for_path(
+            request=self.request, path=self.object.launch_path)
+        context['launch_url'] = launch_url
+        context['secure_launch_url'] = as_https(launch_url)
+        context['icon'] = self.object.icon_url
+        context['secure_icon'] = as_https(self.object.icon_url)
+        return context

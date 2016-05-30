@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'ltilaunch',
     'sslserver',  # only needed for dev
@@ -150,3 +151,5 @@ LOGGING = {
         }
     }
 }
+
+SITE_ID = 1
