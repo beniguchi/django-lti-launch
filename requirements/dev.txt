@@ -3,3 +3,5 @@
 # needed only for testing app
 # unneeded for production (handle in apache/nginx/etc.)
 django-sslserver==0.19
+gunicorn==19.6
+whitenoise==3.1
