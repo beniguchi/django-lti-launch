@@ -54,7 +54,16 @@ class LTIUser(models.Model):
 
 
 class LTIToolProvider(models.Model):
+    VISIBILITY_ALL = ""
+    VISIBILITY_ADMINS = "admins"
+    VISIBILITY_MEMBERS = "members"
+    VISIBILITY_CHOICES = ((VISIBILITY_ALL, "All"),
+                          (VISIBILITY_ADMINS, "Admins"),
+                          (VISIBILITY_MEMBERS, "Members"))
+
     name = models.SlugField(blank=False, unique=True)
+    display_name = models.CharField(max_length=50)
+    visibility = models.CharField(max_length=10, choices=VISIBILITY_CHOICES)
     description = models.TextField()
     icon_url = models.URLField(blank=True)
     launch_path = models.TextField()
