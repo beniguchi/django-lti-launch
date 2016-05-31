@@ -4,4 +4,5 @@
 # unneeded for production (handle in apache/nginx/etc.)
 django-sslserver==0.19
 gunicorn==19.6
+gevent==1.1.1
 whitenoise==3.1
