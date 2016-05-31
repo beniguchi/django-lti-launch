@@ -2,7 +2,8 @@ from urllib.parse import urlparse, urlunparse
 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.template.response import SimpleTemplateResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, View
@@ -19,7 +20,8 @@ class LaunchView(View):
         return super(LaunchView, self).dispatch(request, *args, **kwargs)
 
     def post(self, request):
-        result = HttpResponse(status=401)
+        result = SimpleTemplateResponse(template="lti_launch_failure.html")
+        result.status_code = 401
         result['WWW-Authenticate'] = 'OAuth realm=""'
         lti_user = authenticate(launch_request=request)
         if lti_user:

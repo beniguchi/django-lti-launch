@@ -8,7 +8,7 @@ def validate_lti_launch(consumer, uri, body, headers):
 
     return verifier.validate_request(
         uri, http_method='POST',
-        body=body, headers={'Content-Type': headers['CONTENT_TYPE']})
+        body=body, headers=headers)
 
 
 # noinspection PyAbstractClass

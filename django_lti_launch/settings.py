@@ -126,12 +126,13 @@ AUTHENTICATION_BACKENDS = [
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
             'stream': sys.stdout,
-            'formatter': 'verbose'
+            'formatter': 'verbose',
+            'level': 'DEBUG'
         },
     },
     'formatters': {
@@ -145,13 +146,24 @@ LOGGING = {
             'propagate': True,
             'level': 'DEBUG'
         },
+        'django_lti_launch': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG'
+        },
         'django': {
             'handlers': ['console'],
             'propagate': True,
             'level': 'INFO'
+        },
+        'oauthlib': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG'
         }
     }
 }
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 SITE_ID = 1
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
