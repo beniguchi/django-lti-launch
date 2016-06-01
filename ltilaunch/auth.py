@@ -11,13 +11,12 @@ logger = logging.getLogger(__name__)
 
 class LTILaunchBackend:
     required_keys = {'oauth_consumer_key',
-                     'user_id',
-                     'tool_consumer_instance_guid'}
+                     'user_id'}
 
     def authenticate(self, launch_request=None):
         result = None
         if launch_request:
-            if launch_request.POST.keys() & self.required_keys:
+            if launch_request.POST.keys() >= self.required_keys:
                 result = self._find_lti_user(launch_request)
         return result
 
