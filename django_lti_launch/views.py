@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView
 
 from ltilaunch.models import LTIUser
@@ -11,4 +12,5 @@ class SuccessView(TemplateView):
         launch_data = LTIUser.objects.get(
             user=self.request.user).last_launch_parameters
         context['launch_data'] = launch_data
+        context['next_link'] = reverse('return')
         return context

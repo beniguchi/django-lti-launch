@@ -4,11 +4,12 @@
 </head>
 <body>
 <h1>Success page</h1>
-<p>LTI launch was successful.</p>
+<p>LTI launch was successful. <a href="{{ next_link }}?lti_msg=Successfully+returned+from+LTI+tool.">Click here to return.</a></p>
 <dl>
-{% for item in launch_data.items %}
-    <dt>{{ item.0 }}</dt><dd>{{ item.1 }}</dd>
-{% endfor %}
+    {% for item in launch_data.items %}
+        <dt>{{ item.0 }}</dt>
+        <dd>{{ item.1 }}</dd>
+    {% endfor %}
 </dl>
 </body>
 </html>

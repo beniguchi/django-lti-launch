@@ -21,7 +21,7 @@ from ltilaunch.views import ReturnRedirectView, LaunchView
 
 urlpatterns = [
     url(r'^ltilaunch/', include('ltilaunch.urls')),
-    url(r'^return', ReturnRedirectView.as_view()),
+    url(r'^return', ReturnRedirectView.as_view(), name='return'),
     url(r'^admin/', admin.site.urls),
     url(r'^launch', LaunchView.as_view(tool_provider_url='/tool')),
     url(r'^tool', SuccessView.as_view())
