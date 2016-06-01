@@ -1,0 +1,6 @@
+[run]
+omit =
+    django_lti_launch/*
+    ltilaunch/urls.py
+    setup.py
+    manage.py
