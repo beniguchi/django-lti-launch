@@ -34,3 +34,10 @@ class RedirectViewTestCase(TestCase):
         url = reverse("redirect_view")
         resp = self.client.get(url, follow=False)
         self.assertEqual(401, resp.status_code)
+
+    def test_requires_ltiuser(self):
+        self.lti_user.delete()
+        self.client.force_login(self.user, "ltilaunch.auth.LTILaunchBackend")
+        url = reverse("redirect_view")
+        resp = self.client.get(url, follow=False)
+        self.assertEqual(404, resp.status_code)

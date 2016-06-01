@@ -69,6 +69,11 @@ class LaunchViewTestCase(TestCase):
                   "music": "response"}
         self._successful(oauth_signer, params)
 
+    def test_same_user(self):
+        self.test_success()
+        self.test_success()
+        self.assertEqual(1, LTIUser.objects.count())
+
     def _successful(self, oauth_signer, params):
         uri, headers, body = oauth_signer.sign(
             self.uri,
