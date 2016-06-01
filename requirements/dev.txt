@@ -6,3 +6,4 @@ django-sslserver==0.19
 gunicorn==19.6
 gevent==1.1.1
 whitenoise==3.1
+pyyaml==3.11

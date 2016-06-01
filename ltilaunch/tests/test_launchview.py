@@ -2,7 +2,7 @@ import oauthlib.oauth1
 from django.core.urlresolvers import reverse
 from django.test import TestCase, override_settings
 
-from .models import LTIToolConsumer, LTIUser
+from ltilaunch.models import LTIToolConsumer, LTIUser
 
 
 @override_settings(ROOT_URLCONF='ltilaunch.test_urls',

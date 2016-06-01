@@ -52,13 +52,13 @@ class ReturnRedirectView(View):
         return result
 
 
-class LTIConfigView(DetailView):
+class ConfigView(DetailView):
     content_type = "application/xml"
     model = LTIToolProvider
     slug_field = "name"
 
     def get_context_data(self, **kwargs):
-        context = super(LTIConfigView, self).get_context_data(**kwargs)
+        context = super(ConfigView, self).get_context_data(**kwargs)
         launch_url = absolute_url_for_path(
             request=self.request, path=self.object.launch_path)
         context['launch_url'] = launch_url
