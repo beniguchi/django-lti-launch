@@ -1,0 +1,17 @@
+---
+- name: Sync files to remote host
+  hosts: default
+  become: yes
+
+  tasks:
+
+    - name: Sync local files to remote host
+      synchronize: src=. dest=/opt owner=no group=no
+
+    - name: change owner
+      file:
+        path: /opt/django-lti-launch
+        group: "{{ ansible_user }}"
+        owner: "{{ ansible_user }}"
+        state: directory
+        recurse: yes

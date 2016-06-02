@@ -6,7 +6,7 @@ from django.contrib.postgres.fields import JSONField, ArrayField
 from django.db import models
 from django.utils import timezone
 
-from ltilaunch.utils import generate_random_string
+from .utils import generate_random_string
 
 
 logger = logging.getLogger(__name__)
@@ -51,6 +51,28 @@ class LTIUser(models.Model):
 
     class Meta:
         unique_together = ('lti_tool_consumer', 'lti_user_id')
+
+
+class LTIToolProvider(models.Model):
+    VISIBILITY_ALL = ""
+    VISIBILITY_ADMINS = "admins"
+    VISIBILITY_MEMBERS = "members"
+    VISIBILITY_CHOICES = ((VISIBILITY_ALL, "All"),
+                          (VISIBILITY_ADMINS, "Admins"),
+                          (VISIBILITY_MEMBERS, "Members"))
+
+    name = models.SlugField(blank=False, unique=True)
+    display_name = models.CharField(max_length=50)
+    visibility = models.CharField(max_length=10, choices=VISIBILITY_CHOICES)
+    description = models.TextField()
+    icon_url = models.URLField(blank=True)
+    launch_path = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "LTI tool provider"
 
 
 def get_or_create_lti_user(consumer, lti_user_id, request):

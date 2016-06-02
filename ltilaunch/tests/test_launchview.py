@@ -8,8 +8,6 @@ from ltilaunch.models import LTIToolConsumer, LTIUser
 @override_settings(ROOT_URLCONF='ltilaunch.test_urls',
                    AUTHENTICATION_BACKENDS=('ltilaunch.auth.LTILaunchBackend',))
 class LaunchViewTestCase(TestCase):
-    key = "oauthconsumerkey123456826387216487264821641"
-    secret = "oauthconsumersecret1234536821638126382136183"
     guid = "abcdefg"
     user_id = "user1"
 
@@ -17,10 +15,10 @@ class LaunchViewTestCase(TestCase):
         self.consumer = LTIToolConsumer.objects.create(
             name="testconsumer",
             description="Test LTI Tool Consumer",
-            oauth_consumer_key=self.key,
-            oauth_consumer_secret=self.secret,
             tool_consumer_instance_guid=self.guid
         )
+        self.key = self.consumer.oauth_consumer_key
+        self.secret = self.consumer.oauth_consumer_secret
         self.uri = "https://testserver" + reverse("testlaunch")
 
     def test_wrong_consumer(self):
@@ -70,6 +68,11 @@ class LaunchViewTestCase(TestCase):
                   "user_id": self.user_id,
                   "music": "response"}
         self._successful(oauth_signer, params)
+
+    def test_same_user(self):
+        self.test_success()
+        self.test_success()
+        self.assertEqual(1, LTIUser.objects.count())
 
     def _successful(self, oauth_signer, params):
         uri, headers, body = oauth_signer.sign(

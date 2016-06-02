@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import LTIToolConsumer
+from .models import LTIToolConsumer, LTIToolProvider
 
 
 class LTIToolConsumerAdmin(admin.ModelAdmin):
@@ -25,4 +25,12 @@ class LTIToolConsumerAdmin(admin.ModelAdmin):
         return form
 
 
+class LTIToolProviderAdmin(admin.ModelAdmin):
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(LTIToolProviderAdmin, self).get_form(
+            request, obj, **kwargs)
+        form.base_fields['launch_path'].widget.attrs['rows'] = 1
+        return form
+
 admin.site.register(LTIToolConsumer, LTIToolConsumerAdmin)
+admin.site.register(LTIToolProvider, LTIToolProviderAdmin)

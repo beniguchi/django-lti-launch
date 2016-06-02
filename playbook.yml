@@ -2,7 +2,11 @@
 - name: Provision development VM for django-lti-launch
   hosts: default
   become: yes
-
+  
+  vars:
+    repo_path_prefix: ""
+    user: "{{ ansible_user | default('vagrant') }}"
+    
   tasks:
 
     - name: add PostgreSQL 9.5 repos
@@ -37,16 +41,17 @@
     - name: install needed pip packages
       pip:
         chdir: yes
-        requirements: requirements/dev.txt
-        virtualenv: /home/vagrant/.virtualenvs/django-lti-launch
+        requirements: "{{ repo_path_prefix }}requirements/dev.txt"
+        virtualenv: /home/{{ user }}/.virtualenvs/django-lti-launch
         virtualenv_python: python3
+      become: no
 
-    - name: create vagrant Postgres user
-      postgresql_user: name=vagrant role_attr_flags=SUPERUSER
+    - name: create Postgres user
+      postgresql_user: name={{ user }} role_attr_flags=SUPERUSER
       become_user: postgres
 
     - name: create django_lti_launch database
-      postgresql_db: name=django_lti_launch owner=vagrant
+      postgresql_db: name=django_lti_launch owner={{ user }}
       become_user: postgres
 
     - name: have PostgreSQL listen to all interfaces
