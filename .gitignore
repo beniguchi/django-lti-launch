@@ -163,3 +163,5 @@ fabric.properties
 
 # *.iml
 # modules.xml
+
+.idea/remote-mappings.xml
