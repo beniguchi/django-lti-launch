@@ -12,7 +12,9 @@ class RedirectViewTestCase(TestCase):
 
     def setUp(self):
         self.user = User.objects.get(id=1)
-        self.consumer = LTIToolConsumer.objects.get(id=1)
+        self.consumer = LTIToolConsumer.objects.create(
+            name="whatever"
+        )
         self.lti_user = LTIUser.objects.create(
             user=self.user,
             lti_user_id="irrelevant",

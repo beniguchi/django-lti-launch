@@ -12,6 +12,10 @@ from .utils import generate_random_string
 logger = logging.getLogger(__name__)
 
 
+class LTIToolConsumerGroup(models.Model):
+    name = models.CharField(max_length=50, blank=False, unique=True)
+
+
 class LTIToolConsumer(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
@@ -29,6 +33,13 @@ class LTIToolConsumer(models.Model):
         verbose_name="Match GUID and OAuth consumer")
     recent_nonces = ArrayField(base_field=models.TextField(),
                                size=10, default=[])
+    consumer_group = models.ForeignKey(LTIToolConsumerGroup,
+                                       blank=True,
+                                       null=True,
+                                       on_delete=models.SET_NULL)
+    matcher_class_name = models.CharField(max_length=160,
+                                          blank=True,
+                                          null=True)
 
     def __str__(self):
         return self.name
