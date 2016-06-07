@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 class LTIToolConsumerGroup(models.Model):
     name = models.CharField(max_length=50, blank=False, unique=True)
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.name
 
     class Meta:

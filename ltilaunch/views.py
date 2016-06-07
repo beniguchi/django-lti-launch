@@ -26,9 +26,6 @@ class LaunchView(View):
     def dispatch(self, request, *args, **kwargs):
         return super(LaunchView, self).dispatch(request, *args, **kwargs)
 
-    def get(self, request):
-        return self.authorize(request)
-
     def post(self, request):
         return self.authorize(request)
 
