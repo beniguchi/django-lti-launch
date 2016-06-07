@@ -11,7 +11,10 @@ class LTIUserMatcher:
                                  lti_consumer: LTIToolConsumer):
         all_users = locate(self.lti_user_model).objects.all() # type: models.query.QuerySet
         group = lti_consumer.consumer_group
-        consumers = LTIToolConsumer.objects.filter(consumer_group=group)
+        if group:
+            consumers = LTIToolConsumer.objects.filter(consumer_group=group)
+        else:
+            consumers = LTIToolConsumer.objects.filter(pk=lti_consumer.pk)
         return all_users.filter(lti_tool_consumer__in=consumers)
 
     def get_matching_user(self,
