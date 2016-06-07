@@ -7,7 +7,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, View
 
-from .models import lti_launch_return_url, LTIToolProvider
+from . import LTIUSER_SESSION_KEY
+from .models import lti_launch_return_url, LTIToolProvider, get_lti_user
 from .utils import absolute_url_for_path, as_https
 
 
@@ -25,13 +26,25 @@ class LaunchView(View):
     def dispatch(self, request, *args, **kwargs):
         return super(LaunchView, self).dispatch(request, *args, **kwargs)
 
+    def get(self, request):
+        return self.authorize(request)
+
     def post(self, request):
+        return self.authorize(request)
+
+    def authorize(self, request):
         result = unauthorized_response()
         lti_user = authenticate(launch_request=request)
         if lti_user:
             login(request, lti_user)
+            self._set_session_data(request)
             result = HttpResponseRedirect(self.tool_provider_url, status=303)
         return result
+
+    @staticmethod
+    def _set_session_data(request):
+        lti_user = get_lti_user(request.POST)
+        request.session[LTIUSER_SESSION_KEY] = lti_user.pk
 
 
 class ReturnRedirectView(View):

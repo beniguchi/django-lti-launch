@@ -16,6 +16,12 @@ logger = logging.getLogger(__name__)
 class LTIToolConsumerGroup(models.Model):
     name = models.CharField(max_length=50, blank=False, unique=True)
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "LTI tool consumer group"
+
 
 class LTIToolConsumer(models.Model):
     name = models.CharField(max_length=50)
@@ -63,6 +69,7 @@ class LTIUser(models.Model):
 
     class Meta:
         unique_together = ('lti_tool_consumer', 'lti_user_id')
+        verbose_name = "LTI user"
 
 
 class LTIToolProvider(models.Model):
@@ -115,6 +122,14 @@ def get_or_create_lti_user(consumer, launch_data):
         )
     lti_user.save()
     return lti_user
+
+
+def get_lti_user(launch_data):
+    lti_user_id = launch_data["user_id"]
+    lti_consumer_key = launch_data["oauth_consumer_key"]
+    return LTIUser.objects.get(
+        last_launch_parameters__user_id=lti_user_id,
+        lti_tool_consumer__oauth_consumer_key=lti_consumer_key)
 
 
 def lti_launch_return_url(user):
