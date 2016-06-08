@@ -6,13 +6,17 @@ PROJECT_PATH = os.path.dirname(__file__)
 with open(os.path.join(PROJECT_PATH, "requirements", "base.txt")) as reqs:
     REQS = list(s.rstrip() for s in reqs.readlines())
 
+# read version from file
+with open(os.path.join(PROJECT_PATH, "VERSION")) as version_file:
+    version_str = version_file.read().strip()
+
 # allow setup.py to be run from any path
 os.chdir(
     os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-lti-launch',
-    version='0.1',
+    version=version_str,
     packages=find_packages(),
     include_package_data=True,
     license='http://www.apache.org/licenses/LICENSE-2.0',
