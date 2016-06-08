@@ -21,28 +21,23 @@
   fields: {app_label: sites, model: site}
 - model: contenttypes.contenttype
   pk: 8
-  fields: {app_label: ltilaunch, model: ltitoolconsumer}
+  fields: {app_label: ltilaunch, model: ltitoolconsumergroup}
 - model: contenttypes.contenttype
   pk: 9
-  fields: {app_label: ltilaunch, model: ltiuser}
+  fields: {app_label: ltilaunch, model: ltitoolconsumer}
 - model: contenttypes.contenttype
   pk: 10
+  fields: {app_label: ltilaunch, model: ltiuser}
+- model: contenttypes.contenttype
+  pk: 11
   fields: {app_label: ltilaunch, model: ltitoolprovider}
 - model: sessions.session
-  pk: ndjgb8e9eu04dvxo5gnwefc20fyv4l9x
-  fields: {session_data: YTQzY2VmMDQyMGNjOWQyYmQwNzIwN2U0M2Y4ZTI3ZDQ0YmE1ZDQ4NDp7Il9hdXRoX3VzZXJfaGFzaCI6IjYyMjFmODBhMzA0YjJkMGExNzFlODQ5NTk2OTYwMGQ2YzJhOWJjN2EiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=,
-    expire_date: !!timestamp '2016-06-14 15:42:14.857621+00:00'}
+  pk: bizjwgnv18joar77yi9c9ilked2gmj6i
+  fields: {session_data: MDg5ZDQ2NTc3ZmY3OGY3MTRiNWU3MTNmZmY3M2IzYjVmYTE3NTVhMDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJmZTdjYTU3YzI5ZmViMmRjMjM2ZWUwMjc4YTY2MDQ2ZTYxZmVjYjBjIn0=,
+    expire_date: !!timestamp '2016-06-20 13:29:05.893800+00:00'}
 - model: sites.site
   pk: 1
-  fields: {domain: 127.0.0.1, name: example.com}
-- model: ltilaunch.ltitoolconsumer
-  pk: 1
-  fields: {name: Canvas, description: '', oauth_consumer_key: abcdefghijklmnopqrstuvwxyz, oauth_consumer_secret: abcdefghijklmnopqrstuvwxyz,
-    tool_consumer_instance_guid: whatever, match_guid_and_consumer: false, recent_nonces: '[]'}
-- model: ltilaunch.ltitoolprovider
-  pk: 1
-  fields: {name: testing, display_name: This Is A Test, visibility: admins, description: test,
-    icon_url: '', launch_path: /foo/bar}
+  fields: {domain: '127.0.0.1:8000', name: Localhost port 8000}
 - model: auth.permission
   pk: 1
   fields: {name: Can add log entry, content_type: 1, codename: add_logentry}
@@ -108,56 +103,57 @@
   fields: {name: Can delete site, content_type: 7, codename: delete_site}
 - model: auth.permission
   pk: 22
-  fields: {name: Can add LTI tool consumer, content_type: 8, codename: add_ltitoolconsumer}
+  fields: {name: Can add lti tool consumer group, content_type: 8, codename: add_ltitoolconsumergroup}
 - model: auth.permission
   pk: 23
-  fields: {name: Can change LTI tool consumer, content_type: 8, codename: change_ltitoolconsumer}
+  fields: {name: Can change lti tool consumer group, content_type: 8, codename: change_ltitoolconsumergroup}
 - model: auth.permission
   pk: 24
-  fields: {name: Can delete LTI tool consumer, content_type: 8, codename: delete_ltitoolconsumer}
+  fields: {name: Can delete lti tool consumer group, content_type: 8, codename: delete_ltitoolconsumergroup}
 - model: auth.permission
   pk: 25
-  fields: {name: Can add lti user, content_type: 9, codename: add_ltiuser}
+  fields: {name: Can add LTI tool consumer, content_type: 9, codename: add_ltitoolconsumer}
 - model: auth.permission
   pk: 26
-  fields: {name: Can change lti user, content_type: 9, codename: change_ltiuser}
+  fields: {name: Can change LTI tool consumer, content_type: 9, codename: change_ltitoolconsumer}
 - model: auth.permission
   pk: 27
-  fields: {name: Can delete lti user, content_type: 9, codename: delete_ltiuser}
+  fields: {name: Can delete LTI tool consumer, content_type: 9, codename: delete_ltitoolconsumer}
 - model: auth.permission
   pk: 28
-  fields: {name: Can add LTI tool provider, content_type: 10, codename: add_ltitoolprovider}
+  fields: {name: Can add lti user, content_type: 10, codename: add_ltiuser}
 - model: auth.permission
   pk: 29
-  fields: {name: Can change LTI tool provider, content_type: 10, codename: change_ltitoolprovider}
+  fields: {name: Can change lti user, content_type: 10, codename: change_ltiuser}
 - model: auth.permission
   pk: 30
-  fields: {name: Can delete LTI tool provider, content_type: 10, codename: delete_ltitoolprovider}
+  fields: {name: Can delete lti user, content_type: 10, codename: delete_ltiuser}
+- model: auth.permission
+  pk: 31
+  fields: {name: Can add LTI tool provider, content_type: 11, codename: add_ltitoolprovider}
+- model: auth.permission
+  pk: 32
+  fields: {name: Can change LTI tool provider, content_type: 11, codename: change_ltitoolprovider}
+- model: auth.permission
+  pk: 33
+  fields: {name: Can delete LTI tool provider, content_type: 11, codename: delete_ltitoolprovider}
 - model: auth.user
   pk: 1
   fields:
-    password: pbkdf2_sha256$24000$1LCptOzMfSk3$QlyFeyNIrMxdIfTYoCZPJKcXgKhFlVOj0t3yRgjq8Lc=
-    last_login: 2016-05-31 15:42:14.856247+00:00
+    password: pbkdf2_sha256$24000$1l9xw7Pkwj32$DzqNgpV732GEWFpepBMqV/0EnH/+VZp185k15OnFB/o=
+    last_login: 2016-06-06 13:29:05.892203+00:00
     is_superuser: true
     username: admin
     first_name: ''
     last_name: ''
-    email: user@example.com
+    email: admin@example.com
     is_staff: true
     is_active: true
-    date_joined: 2016-05-31 15:16:50.317989+00:00
+    date_joined: 2016-06-06 13:11:54.553244+00:00
     groups: []
     user_permissions: []
 - model: admin.logentry
   pk: 1
-  fields: {action_time: !!timestamp '2016-05-31 15:42:25.691216+00:00', user: 1, content_type: 7,
-    object_id: '1', object_repr: 127.0.0.1, action_flag: 2, change_message: Changed
-      domain.}
-- model: admin.logentry
-  pk: 2
-  fields: {action_time: !!timestamp '2016-05-31 15:42:51.742296+00:00', user: 1, content_type: 10,
-    object_id: '1', object_repr: testing, action_flag: 1, change_message: Added.}
-- model: admin.logentry
-  pk: 3
-  fields: {action_time: !!timestamp '2016-05-31 20:47:16.429200+00:00', user: 1, content_type: 8,
-    object_id: '1', object_repr: Canvas, action_flag: 1, change_message: Added.}
+  fields: {action_time: !!timestamp '2016-06-06 13:29:38.917450+00:00', user: 1, content_type: 7,
+    object_id: '1', object_repr: '127.0.0.1:8000', action_flag: 2, change_message: Changed
+      domain and name.}

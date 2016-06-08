@@ -52,7 +52,7 @@ class LTILaunchBackend:
                         " user_id '%s'", consumer_key, lti_user_id)
                 else:
                     result = get_or_create_lti_user(
-                        consumer, lti_user_id, launch_request).user
+                        consumer, launch_request.POST).user
         return result
 
     @staticmethod

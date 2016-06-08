@@ -1,4 +1,5 @@
 import logging
+from pydoc import locate
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -10,6 +11,16 @@ from .utils import generate_random_string
 
 
 logger = logging.getLogger(__name__)
+
+
+class LTIToolConsumerGroup(models.Model):
+    name = models.CharField(max_length=50, blank=False, unique=True)
+
+    def __str__(self):  # pragma: no cover
+        return self.name
+
+    class Meta:
+        verbose_name = "LTI tool consumer group"
 
 
 class LTIToolConsumer(models.Model):
@@ -29,6 +40,13 @@ class LTIToolConsumer(models.Model):
         verbose_name="Match GUID and OAuth consumer")
     recent_nonces = ArrayField(base_field=models.TextField(),
                                size=10, default=[])
+    consumer_group = models.ForeignKey(LTIToolConsumerGroup,
+                                       blank=True,
+                                       null=True,
+                                       on_delete=models.SET_NULL)
+    matcher_class_name = models.CharField(max_length=160,
+                                          blank=True,
+                                          null=True)
 
     def __str__(self):
         return self.name
@@ -42,8 +60,8 @@ class LTIToolConsumer(models.Model):
 
 
 class LTIUser(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True,
-                                on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     lti_tool_consumer = models.ForeignKey(LTIToolConsumer)
     lti_user_id = models.TextField()
     last_launch_parameters = JSONField()
@@ -51,6 +69,7 @@ class LTIUser(models.Model):
 
     class Meta:
         unique_together = ('lti_tool_consumer', 'lti_user_id')
+        verbose_name = "LTI user"
 
 
 class LTIToolProvider(models.Model):
@@ -75,27 +94,42 @@ class LTIToolProvider(models.Model):
         verbose_name = "LTI tool provider"
 
 
-def get_or_create_lti_user(consumer, lti_user_id, request):
+def get_or_create_lti_user(consumer, launch_data):
+    lti_user_id = launch_data["user_id"]
     try:
         lti_user = LTIUser.objects.get(
             lti_tool_consumer=consumer,
             lti_user_id=lti_user_id)
-        lti_user.last_launch_parameters = request.POST
+        lti_user.last_launch_parameters = launch_data
         lti_user.last_launch_time = timezone.now()
     except LTIUser.DoesNotExist:
         user_model = get_user_model()
-        djuser = user_model.objects.create_user(
-            username=(consumer.tool_consumer_instance_guid[:14] +
-                      lti_user_id[:14]))
+        djuser = None
+        if consumer.matcher_class_name:
+            matcher_class = locate(consumer.matcher_class_name)
+            matcher = matcher_class()
+            djuser = matcher.get_matching_user(consumer, launch_data)
+        if djuser is None:
+            djuser = user_model.objects.create_user(
+                username=(consumer.tool_consumer_instance_guid[:14] +
+                          lti_user_id[:14]))
         lti_user = LTIUser.objects.create(
             user=djuser,
             lti_user_id=lti_user_id,
             lti_tool_consumer=consumer,
-            last_launch_parameters=request.POST,
+            last_launch_parameters=launch_data,
             last_launch_time=timezone.now()
         )
     lti_user.save()
     return lti_user
+
+
+def get_lti_user(launch_data):
+    lti_user_id = launch_data["user_id"]
+    lti_consumer_key = launch_data["oauth_consumer_key"]
+    return LTIUser.objects.get(
+        last_launch_parameters__user_id=lti_user_id,
+        lti_tool_consumer__oauth_consumer_key=lti_consumer_key)
 
 
 def lti_launch_return_url(user):
