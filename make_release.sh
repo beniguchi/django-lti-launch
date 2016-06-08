@@ -36,3 +36,4 @@ python3 setup.py sdist
 echo ${NEXT_VERSION} > VERSION
 git add VERSION
 git commit -m "Set VERSION to ${NEXT_VERSION}"
+git push --tags
