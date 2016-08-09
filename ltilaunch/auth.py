@@ -9,6 +9,20 @@ from .oauth import validate_lti_launch
 logger = logging.getLogger(__name__)
 
 
+class DevLTILaunchBackend:
+    @staticmethod
+    def authenticate(dev_lti_user=None):
+        return dev_lti_user.user if dev_lti_user else None
+
+    @staticmethod
+    def get_user(user_id):
+        um = get_user_model()
+        try:
+            return um.objects.get(pk=user_id)
+        except um.DoesNotExist:
+            return None
+
+
 class LTILaunchBackend:
     required_keys = {'oauth_consumer_key',
                      'user_id'}

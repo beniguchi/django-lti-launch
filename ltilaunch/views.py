@@ -5,10 +5,11 @@ from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.template.response import SimpleTemplateResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView, View
+from django.views.generic import DetailView, ListView, View
 
 from . import LTIUSER_SESSION_KEY
-from .models import lti_launch_return_url, LTIToolProvider, get_lti_user
+from .models import lti_launch_return_url, LTIToolProvider, get_lti_user, \
+    LTIUser
 from .utils import absolute_url_for_path, as_https
 
 
@@ -82,3 +83,23 @@ class ConfigView(DetailView):
         context['icon'] = self.object.icon_url
         context['secure_icon'] = as_https(self.object.icon_url)
         return context
+
+
+class DevLoginView(ListView):
+    tool_provider_url = '/'
+    model = LTIUser
+    template_name = "devlogin.html"
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(DevLoginView, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        result = unauthorized_response()
+        lti_user = LTIUser.objects.get(id=request.POST["lti_user_id"])
+        if lti_user:
+            user = authenticate(dev_lti_user=lti_user)
+            login(request, user)
+            request.session[LTIUSER_SESSION_KEY] = lti_user.pk
+            result = HttpResponseRedirect(self.tool_provider_url, status=303)
+        return result
