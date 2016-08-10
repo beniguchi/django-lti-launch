@@ -122,6 +122,7 @@ STATIC_URL = '/static/'
 
 AUTHENTICATION_BACKENDS = [
     'ltilaunch.auth.LTILaunchBackend',
+    'ltilaunch.auth.DevLTILaunchBackend',
     'django.contrib.auth.backends.ModelBackend']
 
 LOGGING = {
