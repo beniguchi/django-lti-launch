@@ -99,7 +99,8 @@ class DevLoginView(ListView):
         lti_user = LTIUser.objects.get(id=request.POST["lti_user_id"])
         if lti_user:
             user = authenticate(dev_lti_user=lti_user)
-            login(request, user)
+            login(request, user,
+                  backend="ltilaunch.auth.DevLTILaunchBackend")
             request.session[LTIUSER_SESSION_KEY] = lti_user.pk
             result = HttpResponseRedirect(self.tool_provider_url, status=303)
         return result
