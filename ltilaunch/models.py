@@ -82,7 +82,8 @@ class LTIToolProvider(models.Model):
 
     name = models.SlugField(blank=False, unique=True)
     display_name = models.CharField(max_length=50)
-    visibility = models.CharField(max_length=10, choices=VISIBILITY_CHOICES)
+    visibility = models.CharField(max_length=10, choices=VISIBILITY_CHOICES,
+                                  blank=True)
     description = models.TextField()
     icon_url = models.URLField(blank=True)
     launch_path = models.TextField()

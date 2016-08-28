@@ -18,7 +18,9 @@
         <lticm:property name="privacy_level">public</lticm:property>
         <lticm:property name="text">{{ object.display_name }}</lticm:property>
         <lticm:options name="course_navigation">
+            {%  if object.visibility != "" %}
             <lticm:property name="visibility">{{ object.visibility }}</lticm:property>
+            {% endif %}
             <lticm:property name="enabled">true</lticm:property>
         </lticm:options>
     </blti:extensions>
