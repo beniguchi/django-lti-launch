@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import LTIToolConsumer, LTIToolProvider, LTIToolConsumerGroup
+from .models import LTIToolConsumer, LTIToolProvider, LTIToolConsumerGroup, \
+    LTIUser
 
 
 class LTIToolConsumerAdmin(admin.ModelAdmin):
@@ -38,3 +39,4 @@ class LTIToolProviderAdmin(admin.ModelAdmin):
 admin.site.register(LTIToolConsumer, LTIToolConsumerAdmin)
 admin.site.register(LTIToolProvider, LTIToolProviderAdmin)
 admin.site.register(LTIToolConsumerGroup, admin.ModelAdmin)
+admin.site.register(LTIUser, admin.ModelAdmin)
