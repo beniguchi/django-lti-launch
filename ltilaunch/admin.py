@@ -43,7 +43,7 @@ class LTIToolProviderAdmin(admin.ModelAdmin):
 
 class LTILaunchParameterInputs(Widget):
     def render(self, name, value, attrs=None):
-        data = json.loads(value)
+        data = json.loads(value) or {}
         ret = '<ul>'
         for k, v in sorted(data.items()):
             ctx = {'key': k,
