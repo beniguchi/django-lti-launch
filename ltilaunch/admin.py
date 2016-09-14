@@ -36,7 +36,12 @@ class LTIToolProviderAdmin(admin.ModelAdmin):
         return form
 
 
+class LTIUserAdmin(admin.ModelAdmin):
+    list_display = ("person_name", "source_lms",
+                    "last_launch_course_id")
+
+
 admin.site.register(LTIToolConsumer, LTIToolConsumerAdmin)
 admin.site.register(LTIToolProvider, LTIToolProviderAdmin)
 admin.site.register(LTIToolConsumerGroup, admin.ModelAdmin)
-admin.site.register(LTIUser, admin.ModelAdmin)
+admin.site.register(LTIUser, LTIUserAdmin)
