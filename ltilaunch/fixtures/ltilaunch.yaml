@@ -1,142 +1,6 @@
-- model: contenttypes.contenttype
-  pk: 1
-  fields: {app_label: admin, model: logentry}
-- model: contenttypes.contenttype
-  pk: 2
-  fields: {app_label: auth, model: permission}
-- model: contenttypes.contenttype
-  pk: 3
-  fields: {app_label: auth, model: group}
-- model: contenttypes.contenttype
-  pk: 4
-  fields: {app_label: auth, model: user}
-- model: contenttypes.contenttype
-  pk: 5
-  fields: {app_label: contenttypes, model: contenttype}
-- model: contenttypes.contenttype
-  pk: 6
-  fields: {app_label: sessions, model: session}
-- model: contenttypes.contenttype
-  pk: 7
-  fields: {app_label: sites, model: site}
-- model: contenttypes.contenttype
-  pk: 8
-  fields: {app_label: ltilaunch, model: ltitoolconsumergroup}
-- model: contenttypes.contenttype
-  pk: 9
-  fields: {app_label: ltilaunch, model: ltitoolconsumer}
-- model: contenttypes.contenttype
-  pk: 10
-  fields: {app_label: ltilaunch, model: ltiuser}
-- model: contenttypes.contenttype
-  pk: 11
-  fields: {app_label: ltilaunch, model: ltitoolprovider}
-- model: sessions.session
-  pk: bizjwgnv18joar77yi9c9ilked2gmj6i
-  fields: {session_data: MDg5ZDQ2NTc3ZmY3OGY3MTRiNWU3MTNmZmY3M2IzYjVmYTE3NTVhMDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJmZTdjYTU3YzI5ZmViMmRjMjM2ZWUwMjc4YTY2MDQ2ZTYxZmVjYjBjIn0=,
-    expire_date: !!timestamp '2016-06-20 13:29:05.893800+00:00'}
 - model: sites.site
   pk: 1
   fields: {domain: '127.0.0.1:8000', name: Localhost port 8000}
-- model: auth.permission
-  pk: 1
-  fields: {name: Can add log entry, content_type: 1, codename: add_logentry}
-- model: auth.permission
-  pk: 2
-  fields: {name: Can change log entry, content_type: 1, codename: change_logentry}
-- model: auth.permission
-  pk: 3
-  fields: {name: Can delete log entry, content_type: 1, codename: delete_logentry}
-- model: auth.permission
-  pk: 4
-  fields: {name: Can add permission, content_type: 2, codename: add_permission}
-- model: auth.permission
-  pk: 5
-  fields: {name: Can change permission, content_type: 2, codename: change_permission}
-- model: auth.permission
-  pk: 6
-  fields: {name: Can delete permission, content_type: 2, codename: delete_permission}
-- model: auth.permission
-  pk: 7
-  fields: {name: Can add group, content_type: 3, codename: add_group}
-- model: auth.permission
-  pk: 8
-  fields: {name: Can change group, content_type: 3, codename: change_group}
-- model: auth.permission
-  pk: 9
-  fields: {name: Can delete group, content_type: 3, codename: delete_group}
-- model: auth.permission
-  pk: 10
-  fields: {name: Can add user, content_type: 4, codename: add_user}
-- model: auth.permission
-  pk: 11
-  fields: {name: Can change user, content_type: 4, codename: change_user}
-- model: auth.permission
-  pk: 12
-  fields: {name: Can delete user, content_type: 4, codename: delete_user}
-- model: auth.permission
-  pk: 13
-  fields: {name: Can add content type, content_type: 5, codename: add_contenttype}
-- model: auth.permission
-  pk: 14
-  fields: {name: Can change content type, content_type: 5, codename: change_contenttype}
-- model: auth.permission
-  pk: 15
-  fields: {name: Can delete content type, content_type: 5, codename: delete_contenttype}
-- model: auth.permission
-  pk: 16
-  fields: {name: Can add session, content_type: 6, codename: add_session}
-- model: auth.permission
-  pk: 17
-  fields: {name: Can change session, content_type: 6, codename: change_session}
-- model: auth.permission
-  pk: 18
-  fields: {name: Can delete session, content_type: 6, codename: delete_session}
-- model: auth.permission
-  pk: 19
-  fields: {name: Can add site, content_type: 7, codename: add_site}
-- model: auth.permission
-  pk: 20
-  fields: {name: Can change site, content_type: 7, codename: change_site}
-- model: auth.permission
-  pk: 21
-  fields: {name: Can delete site, content_type: 7, codename: delete_site}
-- model: auth.permission
-  pk: 22
-  fields: {name: Can add lti tool consumer group, content_type: 8, codename: add_ltitoolconsumergroup}
-- model: auth.permission
-  pk: 23
-  fields: {name: Can change lti tool consumer group, content_type: 8, codename: change_ltitoolconsumergroup}
-- model: auth.permission
-  pk: 24
-  fields: {name: Can delete lti tool consumer group, content_type: 8, codename: delete_ltitoolconsumergroup}
-- model: auth.permission
-  pk: 25
-  fields: {name: Can add LTI tool consumer, content_type: 9, codename: add_ltitoolconsumer}
-- model: auth.permission
-  pk: 26
-  fields: {name: Can change LTI tool consumer, content_type: 9, codename: change_ltitoolconsumer}
-- model: auth.permission
-  pk: 27
-  fields: {name: Can delete LTI tool consumer, content_type: 9, codename: delete_ltitoolconsumer}
-- model: auth.permission
-  pk: 28
-  fields: {name: Can add lti user, content_type: 10, codename: add_ltiuser}
-- model: auth.permission
-  pk: 29
-  fields: {name: Can change lti user, content_type: 10, codename: change_ltiuser}
-- model: auth.permission
-  pk: 30
-  fields: {name: Can delete lti user, content_type: 10, codename: delete_ltiuser}
-- model: auth.permission
-  pk: 31
-  fields: {name: Can add LTI tool provider, content_type: 11, codename: add_ltitoolprovider}
-- model: auth.permission
-  pk: 32
-  fields: {name: Can change LTI tool provider, content_type: 11, codename: change_ltitoolprovider}
-- model: auth.permission
-  pk: 33
-  fields: {name: Can delete LTI tool provider, content_type: 11, codename: delete_ltitoolprovider}
 - model: auth.user
   pk: 1
   fields:
@@ -152,8 +16,50 @@
     date_joined: 2016-06-06 13:11:54.553244+00:00
     groups: []
     user_permissions: []
-- model: admin.logentry
+- model: auth.user
+  pk: 2
+  fields:
+    password: pbkdf2_sha256$24000$1l9xw7Pkwj32$DzqNgpV732GEWFpepBMqV/0EnH/+VZp185k15OnFB/o=
+    last_login: 2016-06-06 13:29:05.892203+00:00
+    is_superuser: true
+    username: whatever
+    first_name: ''
+    last_name: ''
+    email: nope@me.com
+    is_staff: true
+    is_active: true
+    date_joined: 2016-06-06 13:11:54.553244+00:00
+    groups: []
+    user_permissions: []
+- model: ltilaunch.ltitoolconsumergroup
   pk: 1
-  fields: {action_time: !!timestamp '2016-06-06 13:29:38.917450+00:00', user: 1, content_type: 7,
-    object_id: '1', object_repr: '127.0.0.1:8000', action_flag: 2, change_message: Changed
-      domain and name.}
+  fields: {name: FakeLMS}
+- model: ltilaunch.ltitoolconsumer
+  pk: 1
+  fields: {name: Fake LMS, description: It's not a real LMS, oauth_consumer_key: 7sXsDv7cPmNPlJD9cVsfylRn3JASmPyvxyIvw2Z1,
+    oauth_consumer_secret: iLL7J3r33beqLT5qZtss37WyJB9TgrUzc2oRjUZo, tool_consumer_instance_guid: fakelmsguid,
+    match_guid_and_consumer: true, recent_nonces: '[]', consumer_group: 1, matcher_class_name: ''}
+- model: ltilaunch.ltiuser
+  pk: 1
+  fields:
+    user: 2
+    lti_tool_consumer: 1
+    lti_user_id: ade4ea9150fabd4ed32e0c27defd20ef6979c940
+    last_launch_parameters: {context_id: 6dea912122e999239a4663d99fc96ee4507a10bd,
+      context_label: Critical Thinking, context_title: Critical Thinking, custom_canvas_api_domain: unizin.instructure.com,
+      custom_canvas_course_id: '23378', custom_canvas_enrollment_state: active, custom_canvas_user_id: '182',
+      ext_ims_lis_basic_outcome_url: 'http://ltiapps.net/test/tc-outcomes.php/api/lti/v1/tools/63258/ext_grade_passback',
+      ext_outcome_data_values_accepted: 'url,text', launch_presentation_document_target: iframe,
+      launch_presentation_locale: en-GB, launch_presentation_return_url: 'http://ltiapps.net/test/tc-return.php/courses/1623302',
+      lis_outcome_service_url: 'http://ltiapps.net/test/tc-outcomes.php/api/lti/v1/tools/63258/grade_passback',
+      lis_person_contact_email_primary: shirley@garbage.com, lis_person_name_family: Manson,
+      lis_person_name_full: Shirley Manson, lis_person_name_given: Shirley, lis_result_sourcedid: '51b5818580dbc6adc991b6c390a8948c:::6dea912122e999239a4663d99fc96ee4507a10bd:::ade4ea9150fabd4ed32e0c27defd20ef6979c940:::63258-1623302-6419650-3558075-c29475ac7148e0213a9d7e7367061cce46c6d9f2',
+      lti_message_type: basic-lti-launch-request, lti_version: LTI-1p0, oauth_callback: 'about:blank',
+      oauth_consumer_key: 7sXsDv7cPmNPlJD9cVsfylRn3JASmPyvxyIvw2Z1, oauth_nonce: 906f126a2af201462115a476cb239924,
+      oauth_signature: 79pBowU1HKMECjfJ6rAU9CoaFXs=, oauth_signature_method: HMAC-SHA1,
+      oauth_timestamp: '1470923307', oauth_version: '1.0', resource_link_id: 6c91bbd81282ca4b12c02887e8b71bcaef2a38e2,
+      resource_link_title: Essential text, roles: Learner, tool_consumer_info_product_family_code: canvas,
+      tool_consumer_info_version: cloud, tool_consumer_instance_contact_email: dev@unizin.org,
+      tool_consumer_instance_guid: fakelmsguid, tool_consumer_instance_name: Fake
+        LMS, user_id: ade4ea9150fabd4ed32e0c27defd20ef6979c940, user_image: 'https://secure.gravatar.com/avatar/000?s=50&d=https%3A%2F%2Fcanvas.instructure.com%2Fimages%2Fmessages%2Favatar-50.png'}
+    last_launch_time: "2016-08-11 13:48:29.456369+00:00"

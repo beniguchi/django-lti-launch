@@ -13,4 +13,4 @@ class LTILaunchBackendTestCase(TestCase):
         self.assertIsNotNone(self.backend.get_user(1))
 
     def test_user_not_found(self):
-        self.assertIsNone(self.backend.get_user(2))
+        self.assertIsNone(self.backend.get_user(3))
