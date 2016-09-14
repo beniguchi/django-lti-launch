@@ -44,6 +44,7 @@
         requirements: "{{ repo_path_prefix }}requirements/dev.txt"
         virtualenv: /home/{{ user }}/.virtualenvs/django-lti-launch
         virtualenv_python: python3
+        state: latest
       become: no
 
     - name: create Postgres user
