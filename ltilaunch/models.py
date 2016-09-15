@@ -62,10 +62,29 @@ class LTIToolConsumer(models.Model):
 class LTIUser(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
-    lti_tool_consumer = models.ForeignKey(LTIToolConsumer)
-    lti_user_id = models.TextField()
+    lti_tool_consumer = models.ForeignKey(
+        LTIToolConsumer, verbose_name="LTI tool consumer")
+    lti_user_id = models.TextField(verbose_name="LTI user ID")
     last_launch_parameters = JSONField()
     last_launch_time = models.DateTimeField()
+
+    def __str__(self):
+        return self.person_name
+
+    @property
+    def last_launch_course_id(self):
+        return self.last_launch_parameters.get("custom_canvas_course_id", None)
+
+    @property
+    def person_name(self):
+        if "lis_person_name_full" in self.last_launch_parameters:
+            return self.last_launch_parameters["lis_person_name_full"]
+        else:
+            return self.user.username
+
+    @property
+    def source_lms(self):
+        return "{}".format(self.lti_tool_consumer.name)
 
     class Meta:
         unique_together = ('lti_tool_consumer', 'lti_user_id')

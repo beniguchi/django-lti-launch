@@ -44,6 +44,7 @@
         requirements: "{{ repo_path_prefix }}requirements/dev.txt"
         virtualenv: /home/{{ user }}/.virtualenvs/django-lti-launch
         virtualenv_python: python3
+        state: latest
       become: no
 
     - name: create Postgres user
@@ -53,6 +54,22 @@
     - name: create django_lti_launch database
       postgresql_db: name=django_lti_launch owner={{ user }}
       become_user: postgres
+
+    - name: run migration
+      django_manage:
+        app_path: .
+        command: migrate
+        settings: django_lti_launch.settings
+        virtualenv: /home/{{ user }}/.virtualenvs/django-lti-launch
+      become_user: vagrant
+
+    - name: load fixtures
+      django_manage:
+        app_path: .
+        command: loaddata ltilaunch
+        settings: django_lti_launch.settings
+        virtualenv: /home/{{ user }}/.virtualenvs/django-lti-launch
+      become_user: vagrant
 
     - name: have PostgreSQL listen to all interfaces
       lineinfile:
